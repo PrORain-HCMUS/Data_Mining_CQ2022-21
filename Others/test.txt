@@ -1,0 +1,78 @@
+# Tạo cơ sở dữ liệu mẫu (6 giao dịch)
+toy_transactions = [
+    ['A', 'C', 'T', 'W'],  # TID 1
+    ['C', 'D', 'W'],       # TID 2
+    ['A', 'C', 'T', 'W'],  # TID 3
+    ['A', 'C', 'D', 'W'],  # TID 4
+    ['A', 'C', 'D', 'T', 'W'],  # TID 5
+    ['C', 'D', 'T']        # TID 6
+]
+
+# Đặt minsup 50% = 3 giao dịch
+min_support = 3
+
+print("🔍 Chạy Apriori:")
+freq_apriori, support_apriori = apriori(toy_transactions, min_support)
+print(f"Tổng số tập phổ biến: {len(freq_apriori)}")
+for itemset in sorted(freq_apriori, key=lambda x: (len(x), sorted(x))):
+    print(f"  {set(itemset)} - support: {support_apriori[itemset]}")
+
+print("\n🔍 Chạy Eclat:")
+freq_eclat, support_eclat = eclat(toy_transactions, min_support)
+print(f"Tổng số tập phổ biến: {len(freq_eclat)}")
+for itemset in sorted(freq_eclat, key=lambda x: (len(x), sorted(x))):
+    print(f"  {set(itemset)} - support: {support_eclat[frozenset(itemset)]}")
+
+print("\n🔍 Tính tập phổ biến đóng (Charm):")
+closed_sets = find_closed(freq_apriori, support_apriori)
+for s in closed_sets:
+    print(f"  {set(s)} - support: {support_apriori[s]}")
+
+print("\n🔍 Tính tập phổ biến tối đại (GenMax):")
+maximal_sets = find_maximal(freq_apriori)
+for s in maximal_sets:
+    print(f"  {set(s)} - support: {support_apriori[s]}")
+
+
+
+
+
+# ==================== DỮ LIỆU MẪU ====================
+toy_transactions = [
+    ['A', 'C', 'T', 'W'],  # TID 1
+    ['C', 'D', 'W'],       # TID 2
+    ['A', 'C', 'T', 'W'],  # TID 3
+    ['A', 'C', 'D', 'W'],  # TID 4
+    ['A', 'C', 'D', 'T', 'W'],  # TID 5
+    ['C', 'D', 'T']        # TID 6
+]
+
+min_support = 3  # 50%
+
+# ==================== APRIORI ====================
+print("🔍 Apriori:")
+freq_apriori, support_apriori = apriori(toy_transactions, min_support)
+print(f"  Tổng số tập phổ biến: {len(freq_apriori)}")
+for itemset in sorted(freq_apriori, key=lambda x: (len(x), sorted(x))):
+    print(f"  {set(itemset)} - support: {support_apriori[itemset]}")
+
+# ==================== ECLAT ====================
+print("\n🔍 Eclat:")
+freq_eclat, support_eclat = eclat(toy_transactions, min_support)
+print(f"  Tổng số tập phổ biến: {len(freq_eclat)}")
+for itemset in sorted(freq_eclat, key=lambda x: (len(x), sorted(x))):
+    print(f"  {set(itemset)} - support: {support_eclat[frozenset(itemset)]}")
+
+# ==================== CHARM (đúng thuật toán) ====================
+print("\n🔍 Charm - Tập phổ biến đóng:")
+freq_charm, support_charm = charm(toy_transactions, min_support)
+print(f"  Tổng số tập phổ biến: {len(freq_charm)}")
+for s in sorted(freq_charm, key=lambda x: (len(x), sorted(x))):
+    print(f"  {set(s)} - support: {support_charm[s]}")
+
+# ==================== GENMAX (đúng thuật toán) ====================
+print("\n🔍 GenMax - Tập phổ biến tối đại:")
+freq_genmax, support_genmax = genmax(toy_transactions, min_support)
+print(f"  Tổng số tập phổ biến: {len(freq_genmax)}")
+for s in sorted(freq_genmax, key=lambda x: (len(x), sorted(x))):
+    print(f"  {set(s)} - support: {support_genmax[s]}")
