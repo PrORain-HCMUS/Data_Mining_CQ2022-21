@@ -1,0 +1,18 @@
+CHARM (Closed Hash-based Algorithm for Mining Frequent Itemsets)
+Đây là một thuật toán dùng để tìm các tập hợp mục đóng thường xuyên (closed frequent itemsets).
+Điểm đặc biệt của CHARM là nó sử dụng cấu trúc dữ liệu dạng bảng băm (hash table) để giảm không gian tìm kiếm và loại bỏ các tập hợp không cần thiết.
+Nó kết hợp các tập hợp mục với thuộc tính "đóng" (closed), nghĩa là không có tập hợp nào lớn hơn có cùng mức hỗ trợ (support).
+Ưu điểm: Hiệu quả hơn so với việc liệt kê tất cả các tập hợp thường xuyên, vì nó chỉ giữ lại các tập đóng.
+
+
+ECLAT (Equivalence Class Clustering and Bottom-Up Lattice Traversal)
+ECLAT là một thuật toán khai thác tập hợp mục thường xuyên dựa trên cách tiếp cận dọc (vertical data format).
+Thay vì duyệt qua cơ sở dữ liệu theo hàng (như Apriori), ECLAT biểu diễn dữ liệu dưới dạng danh sách giao dịch (tid-lists) cho mỗi mục và sử dụng phép giao (intersection) để tính mức hỗ trợ.
+Ưu điểm: Nhanh hơn trong nhiều trường hợp vì không cần tạo ứng viên (candidate generation) như Apriori, đặc biệt hiệu quả với dữ liệu thưa.
+
+
+GenMax
+GenMax là một thuật toán tập trung vào việc tìm các tập hợp mục tối đa thường xuyên (maximal frequent itemsets).
+Một tập hợp được gọi là tối đa nếu nó thường xuyên và không có tập hợp nào lớn hơn nó cũng thường xuyên.
+GenMax sử dụng chiến lược tìm kiếm theo chiều sâu (depth-first search) và kỹ thuật cắt tỉa (pruning) để loại bỏ các nhánh không cần thiết trong không gian tìm kiếm.
+Ưu điểm: Rất hiệu quả khi bạn chỉ cần các tập hợp tối đa thay vì toàn bộ tập hợp thường xuyên.

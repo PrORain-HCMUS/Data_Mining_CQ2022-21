@@ -1,0 +1,67 @@
+Algorithm dCHARM(D, minsup):
+    Input: D (database in vertical format), minsup (minimum support threshold)
+    Output: Set of closed frequent itemsets (C)
+
+    1. Initialize C ← ∅  // Tập hợp các tập đóng thường xuyên
+    2. Convert D to vertical format: item → tid-list
+    3. F ← {frequent single items in D with support ≥ minsup}
+    4. Call dCHARM-Extend(F, ∅, minsup)
+
+Procedure dCHARM-Extend(P, X, minsup):
+    Input: P (list of itemsets with tid-lists), X (current itemset), minsup
+    5. For each itemset p ∈ P:
+        6. X' ← X ∪ {p.item}
+        7. diffset(X') ← diffset(X) - diffset(p)  // Tính Diffset thay vì giao tid-list
+        8. support(X') ← support(X) - |diffset(X')|
+        9. If support(X') ≥ minsup:
+            10. If X' is closed (no superset with same support):
+                11. C ← C ∪ {X'}
+            12. P' ← {q ∈ P | q after p and support(X' ∪ {q.item}) ≥ minsup}
+            13. dCHARM-Extend(P', X', minsup)
+			
+			
+
+Algorithm dECLAT(D, minsup):
+    Input: D (database in vertical format), minsup
+    Output: Set of frequent itemsets (F)
+
+    1. Initialize F ← ∅
+    2. Convert D to vertical format: item → tid-list
+    3. P ← {frequent single items with support ≥ minsup}
+    4. Call dECLAT-Extend(P, ∅, minsup)
+
+Procedure dECLAT-Extend(P, X, minsup):
+    Input: P (list of itemsets with tid-lists), X (current itemset), minsup
+    5. For each itemset p ∈ P:
+        6. X' ← X ∪ {p.item}
+        7. diffset(X') ← diffset(X) - diffset(p)  // Tính Diffset
+        8. support(X') ← support(X) - |diffset(X')|
+        9. If support(X') ≥ minsup:
+            10. F ← F ∪ {X'}
+            11. P' ← {q ∈ P | q after p and support(X' ∪ {q.item}) ≥ minsup}
+            12. dECLAT-Extend(P', X', minsup)
+			
+			
+
+
+Algorithm dGenMax(D, minsup):
+    Input: D (database in vertical format), minsup
+    Output: Set of maximal frequent itemsets (M)
+
+    1. Initialize M ← ∅
+    2. Convert D to vertical format: item → tid-list
+    3. P ← {frequent single items with support ≥ minsup}
+    4. Call dGenMax-Extend(P, ∅, minsup)
+
+Procedure dGenMax-Extend(P, X, minsup):
+    Input: P (list of itemsets with tid-lists), X (current itemset), minsup
+    5. If X is not subsumed by any itemset in M:
+        6. For each itemset p ∈ P:
+            7. X' ← X ∪ {p.item}
+            8. diffset(X') ← diffset(X) - diffset(p)  // Tính Diffset
+            9. support(X') ← support(X) - |diffset(X')|
+            10. If support(X') ≥ minsup:
+                11. P' ← {q ∈ P | q after p and support(X' ∪ {q.item}) ≥ minsup}
+                12. dGenMax-Extend(P', X', minsup)
+                13. If X' is maximal (no frequent superset):
+                    14. M ← M ∪ {X'}
